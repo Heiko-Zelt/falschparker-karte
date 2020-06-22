@@ -1,0 +1,4 @@
+# OsmType  Tag          DataType     Flags
+node       name         text         linear
+way        name         text         polygon
+way        admin_level  smallint     polygon
