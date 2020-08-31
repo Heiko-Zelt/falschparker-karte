@@ -109,8 +109,8 @@ end
 # very fist day FIRST_DAY = Date.new(2014, 3, 25)
 #FIRST_DAY = Date.new(2020, 6, 10)
 #LAST_DAY  = Date.new(2020, 1, 3)
-FIRST_DAY = Date.today
-LAST_DAY = Date.today
+FIRST_DAY = Date.today - 7
+LAST_DAY = Date.today - 1
 CON = PG.connect :dbname => 'gis'
 CON.prepare 'delete1', "DELETE FROM wegeheld_notices WHERE date BETWEEN $1 AND $2";
 CON.prepare 'insert1', "INSERT INTO wegeheld_notices (latitude, longitude, carbrand, fotolink, date, charge_id) VALUES ($1, $2, $3, $4, $5, $6);"
