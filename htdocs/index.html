@@ -13,37 +13,46 @@
       crossorigin=""></script>
     <script src="js/jquery-3.5.0.js"></script>
     <script src="js/map.js"></script>
-    <script src="js/menu.js"></script>
+    <!--script src="js/menu.js"></script -->
   </head>
   <body>
     <header>
+      <div id="fb-root"></div>
       <h1><a href="/">Falschparker-Karte</a></h1>
-      <div id="icons">
-        <a id="nemo" href="javascript:void 0;">&#128221;</a>
-        <a id="hamburger" href="javascript:void 0;">&#9776;</a>
+      <div id="ico"><img
+	  id="homeIcon" src="ico/home.png" alt="Home"><img
+	  id="crosshairIcon" src="ico/crosshair.png" alt="Standort"><img
+          id="flameIcon" src="ico/flame.png" alt="Hotspots"><img
+          id="layersIcon" src="ico/layers.png" alt="Layers"><img
+          id="shareIcon" src="ico/share.png" alt="teilen"><img
+          id="penIcon" src="ico/pen.png" alt="melden"><img
+          id="burgerIcon" src="ico/burger.png" alt="Men&uuml;"></div>
+      <div class="menuBarRight" id="hotspots">
+	Kategorien:
+        <a id="bundeslaenderLink">Bundesl&auml;nder</a> 
+        <a id="regierungsbezirkeLink">Regierungbezirke</a> 
+        <a id="grossstaedteLink">Gro&szlig;st&auml;dte</a> 
+        <a id="mittlereGemeindenLink">Mittlere Gemeinden</a>
+	Auswahl:
+        <span id="jumpMenu">loading...</span>
       </div>
-      <div class="menuBarRight" id="menu"><a href="bundeslaender.html">Bundesl&auml;nder</a> 
-        <a href="regierungsbezirke.html">Regierungbezirke</a> 
-        <a href="grossstaedte.html">Gro&szlig;st&auml;dte</a> 
-        <a href="mittlere_gemeinden.html">Mittlere Gemeinden</a> 
-        <a href="impressum.html">Impressum</a></div>
+      <div class="menuBarRight" id="menu">
+        <a id="impressum">Impressum</a>
+      </div>
       <div class="menuBarRight" id="report">&#128247; Falschparker melden:
         <a href="https://www.weg-li.de/" target="_blank">weg-li.de</a> + 
         <a href="https://www.wegeheld.org/" target="_blank">Wegeheld</a></div>
-    </header>
-    <div id="mapid"></div>
-    <footer>
-      <form id="myForm">
-        <div id="controls">
+      <div class="menuBarRight" id="controls">
+        <form id="myForm">
           <label for="text">Transparenz: </label>
             <input type="range" id="transparenz" min="0" max="80" step="10" value="50" onchange="transparenzAendern();">
-            <span id="transparenzAnzeige">50 %</span> |
-            <span class="tooltip">&Sigma;: <span id="count">loading...</span><span class="tooltiptext">Anzahl Falschparker im Kartenausschnitt</span></span> |
-          Teilen: <a id="shareLink">loading...</a> <a id="shareMail">&#9993;</a>
-        </div>
-      </form>
-      <div id="details">loading...</div>
-      <div class="menuBarLeft" id="jumpMenu">loading...</div>
-    </footer>
+            <span id="transparenzAnzeige">50 %</span>
+	</form>
+      </div>
+      <div class="menuBarRight" id="share">
+        Kartenausschnitt weiterempfehlen? Kopieren Sie die URL! <a id="shareLink">loading...</a> <a id="shareMail">&#9993;</a>
+      </div>
+    </header>
+    <div id="main"></div>
   </body>  
 </html>
