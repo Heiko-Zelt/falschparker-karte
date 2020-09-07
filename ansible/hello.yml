@@ -1,0 +1,9 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Hello World!"
+  hosts: all
+  user: root
+  tasks:
+  - ping:
+  - debug:
+      msg: "It's working :-)"

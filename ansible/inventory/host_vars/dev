@@ -1,0 +1,2 @@
+ansible_host: "{{secrets.dev.ssh_host}}"
+ansible_port: "{{secrets.dev.ssh_port}}"
