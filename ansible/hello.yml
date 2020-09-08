@@ -4,6 +4,9 @@
   hosts: all
   user: root
   tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
   - ping:
   - debug:
       msg: "It's working :-)"

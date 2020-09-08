@@ -1,0 +1,54 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Updates Import-Scripts"
+  hosts: all
+  user: root
+  vars:
+    jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+        
+  - file:
+      path: "/tmp/test-git-clone"
+      state: "absent"
+
+  - git:
+      repo: "{{git_repo_url}}"
+      dest: "/tmp/test-git-clone"
+  #  run_once: true
+  # delegate_to: localhost
+
+  # loescht keine Dateien! :-(
+  #- copy:
+  #    backup: yes
+  #    src: "/tmp/test-git-clone/import"
+  #    dest: "/home/importeur"
+  #    owner: "importeur"
+  #    group: "importeur"
+ 
+  - stat:
+      path: "/home/importeur/import"
+    register: "import_dir"
+
+  - name: "backup"
+    command: "mv /home/importeur/import /home/importeur/import.backup{{jetzt}}"
+    when: "import_dir.stat.exists"
+
+  # Aendert file permissions :-(
+  #- copy:
+  #    src: "/tmp/test-git-clone/import"
+  #    dest: "/home/importeur"
+  #    owner: "importeur"
+  #    group: "importeur"
+
+  - name: "mv"
+    command: "mv /tmp/test-git-clone/import /home/importeur/import"
+
+  - name: "chown"
+    command: "chown -R importeur: /home/importeur/import"
+
+  - template:
+      src: "prerender_tiles.sh.j2"
+      dest: "/home/importeur/import/notices/prerender_tiles.sh"
