@@ -1,0 +1,32 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Updates all Ubuntu-APT-Packages"
+  hosts: all
+  user: root
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - name: "update cache and full upgrade"
+    apt:
+      upgrade: "full"
+      update_cache: yes
+
+  - name: "Check if reboot is required"
+    stat:
+      path: "/var/run/reboot-required"
+      get_md5: no
+    register: "reboot_required"
+
+  - name: "Check which packages require reboot"
+    stat:
+      path: "/var/run/reboot-required.pkgs"
+      get_md5: no
+    register: "reboot_required_pkgs"
+
+  - debug:
+      var: "reboot_required.stat.exists"
+
+  - debug:
+      var: "reboot_required_pkgs.stat.exists"

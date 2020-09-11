@@ -1,0 +1,40 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Installs all required Ubuntu-APT-Packages"
+  hosts: all
+  user: root
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - name: "Get Ubuntu release"
+    command: "lsb_release -cs"
+    register: "lsb_release_cmd"
+    changed_when: False
+
+  - set_fact:
+      lsb_release: "{{lsb_release_cmd.stdout}}"
+
+  - debug:
+      var: "lsb_release"
+
+  - name: "updating APT cache"
+    apt:
+      cache_valid_time: 1800
+      update_cache: yes
+
+  - apt_repository:
+      repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{lsb_release}}-pgdg main"
+      filename: "postgresql"
+      state: "present"
+      validate_certs: yes
+
+  - apt_key:
+      url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+      state: "present"
+
+  - apt:
+      pkg:
+      - "apache2"
+      - "postgresql-12"

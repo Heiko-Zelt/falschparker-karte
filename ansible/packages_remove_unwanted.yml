@@ -1,0 +1,22 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Updates all Ubuntu-APT-Packages"
+  hosts: all
+  user: root
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - apt:
+      pkg:
+      - "postfix"
+      state: "absent"
+
+  - name: "autoclean"
+    apt:
+      autoclean: yes
+
+  - name: "autoremove"
+    apt:
+      autoremove: yes

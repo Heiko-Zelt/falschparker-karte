@@ -1,0 +1,30 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Switch ICMP/Ping on or off"
+  hosts: all
+  user: root
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - debug:
+      var: "icmp"
+
+  - fail:
+    when: "icmp is not defined"
+
+  - set_fact:
+      binary_digit: "{{ (not icmp)|int }}"
+
+  - debug:
+      var: "binary_digit"
+
+  - shell: "echo {{binary_digit}} > /proc/sys/net/ipv4/icmp_echo_ignore_all"
+
+  - template:
+      src: "sysctl.conf.j2"
+      dest: "/etc/sysctl.conf"
+      backup: yes
+      mode: 0644
+

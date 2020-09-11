@@ -2,3 +2,4 @@ ansible_host: "{{secrets.dev.ssh_host}}"
 ansible_port: "{{secrets.dev.ssh_port}}"
 apache:
   hostname: "{{secrets.dev.http_host}}"
+icmp: yes
