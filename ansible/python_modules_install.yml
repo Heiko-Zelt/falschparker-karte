@@ -1,0 +1,12 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Installs required Python modules for Ansible"
+  hosts: all
+  user: root
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - pip:
+      name: "psycopg2" 

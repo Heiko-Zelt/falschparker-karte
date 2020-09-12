@@ -1,0 +1,27 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Modify PostgreSQL pg_hba.conf"
+  hosts: "all"
+  user: "root"
+  become: true
+  become_user: "postgres"
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  # module not found! :-( 
+  #- postgresql_pg_hba:
+  #    path: "/etc/postgresql/12/main/pg_hba.conf"
+  #    contype: "local"
+  #    database: "gis"
+  #    users: "railsapp,importeur"
+  #    method: "peer"
+  #    backup: yes
+  
+  - name: "add lines to pg_hba.conf"
+    blockinfile:
+      dest: "/etc/postgresql/12/main/pg_hba.conf"
+      block: |
+        local   gis             railsapp,importeur                      peer
+        host    gis             renderd         samehost                md5 

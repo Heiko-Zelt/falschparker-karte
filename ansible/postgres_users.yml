@@ -1,0 +1,28 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Creates PostgreSQL DB user accounts"
+  hosts: "all"
+  user: "root"
+  become: true
+  become_user: "postgres"
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+ 
+  - name: "users without password / unix socket connect only"
+    postgresql_user:
+      db: "gis"
+      name: "{{item}}"
+    loop:
+      - "importeur"
+      - "railsapp"
+
+  # renderd can't connect via unix socket
+  - name: "users with password"
+    postgresql_user:
+      db: "gis"
+      name: "renderd"
+      password: "{{db.renderd_password}}"
+      encrypted: yes

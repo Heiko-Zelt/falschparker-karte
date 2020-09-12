@@ -1,0 +1,17 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Creates PostgreSQL DB user accounts"
+  hosts: "all"
+  user: "root"
+  become: true
+  become_user: "postgres"
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - postgresql_privs:
+      db: "gis"
+      role: "importeur"
+      objs: "ALL_IN_SCHEMA"
+      privs: "CONNECT"
