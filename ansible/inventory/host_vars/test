@@ -1,5 +1,7 @@
-ansible_host: "{{secrets.test.ssh_host}}"
-ansible_port: "{{secrets.test.ssh_port}}"
+ansible_host: "{{secrets.test.ssh.host}}"
+ansible_port: "{{secrets.test.ssh.port}}"
 apache:
-  hostname: "{{secrets.test.http_host}}"
+  hostname: "{{secrets.test.apache.hostname}}"
+db:
+  renderd_password: "{{secrets.test.db.renderd_password}}"
 icmp: no
