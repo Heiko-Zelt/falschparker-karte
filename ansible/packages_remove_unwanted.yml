@@ -10,8 +10,22 @@
 
   - apt:
       pkg:
+      - "cups"
+      - "cups-client"
+      - "cups-common"
+      - "cups-filters"
+      - "cups-ppdc"
+      - "libcupsfilters1"
+      - "libcupsimage2"
       - "postfix"
+      - "python3-cups"
+      - "rpcbind"
+      - "wireshark"
       state: "absent"
+    register: "apt"
+
+  - debug:
+      var: "apt"
 
   - name: "autoclean"
     apt:
