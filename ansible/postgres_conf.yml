@@ -1,0 +1,29 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Modify postgresql.conf"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - set_fact:
+      line: "listen_addresses = '{% if db.remote_access %}*{% else %}localhost{% endif %}'       # what IP adress(es) to listen on;"
+  - debug:
+      var: "line"
+
+  - replace:
+      path: "/etc/postgresql/12/main/postgresql.conf"
+      regexp: '^#?listen_addresses = .*$'
+      replace: "{{line}}"
+      backup: yes
+    become: true
+    become_user: "postgres"
+    register: "replace"
+
+  - name: "restart PostgreSQL"
+    systemd:
+      name: "postgresql"
+      state: "restarted"
+    when: "replace.changed"

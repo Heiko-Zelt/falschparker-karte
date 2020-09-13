@@ -1,6 +1,6 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "Creates PostgreSQL DB user accounts"
+- name: "Grants rights to PostgreSQL DB users"
   hosts: "all"
   user: "root"
   become: true

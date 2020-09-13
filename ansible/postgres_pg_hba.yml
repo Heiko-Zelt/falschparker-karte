@@ -3,8 +3,6 @@
 - name: "Modify PostgreSQL pg_hba.conf"
   hosts: "all"
   user: "root"
-  become: true
-  become_user: "postgres"
   tasks:
   - fail:
       msg: "Use --limit!"
@@ -18,10 +16,30 @@
   #    users: "railsapp,importeur"
   #    method: "peer"
   #    backup: yes
-  
+
+  - set_fact:
+      block1: |
+        local   gis             railsapp,importeur                      peer
+        host    gis             renderd         samehost                md5
+
+  - set_fact:
+      block2: |
+        host    all             postgres        samenet                 md5
+
+  - set_fact:
+      block: "{{block1}}{% if db.remote_access %}{{block2}}{% endif %}"
+
   - name: "add lines to pg_hba.conf"
     blockinfile:
       dest: "/etc/postgresql/12/main/pg_hba.conf"
-      block: |
-        local   gis             railsapp,importeur                      peer
-        host    gis             renderd         samehost                md5 
+      block: "{{block}}"
+      backup: yes
+    become: true
+    become_user: "postgres"
+    register: "blockinfile"
+
+  - name: "restart PostgreSQL"
+    systemd:
+      name: "postgresql"
+      state: "restarted"
+    when: "blockinfile.changed"

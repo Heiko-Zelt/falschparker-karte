@@ -3,5 +3,7 @@ ansible_port: "{{secrets.test.ssh.port}}"
 apache:
   hostname: "{{secrets.test.apache.hostname}}"
 db:
+  remote_access: yes
   renderd_password: "{{secrets.test.db.renderd_password}}"
+  postgres_password: "{{secrets.test.db.postgres_password}}"
 icmp: no

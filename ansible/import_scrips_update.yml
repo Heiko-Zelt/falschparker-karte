@@ -49,9 +49,9 @@
   - name: "chown"
     command: "chown -R importeur: /home/importeur/import"
 
-  - template:
-      src: "prerender_tiles.sh.j2"
-      dest: "/home/importeur/import/notices/prerender_tiles.sh"
-      owner: "importeur"
-      group: "importeur"
-      mode: 0750 
+  #- template:
+  #  src: "prerender_tiles.sh.j2"
+  #  dest: "/home/importeur/import/notices/prerender_tiles.sh"
+  #    owner: "importeur"
+  #    group: "importeur"
+  #    mode: 0750 

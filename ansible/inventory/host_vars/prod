@@ -2,4 +2,7 @@ ansible_host: "{{secrets.prod.ssh.host}}"
 ansible_port: "{{secrets.prod.ssh.port}}"
 apache:
   hostname: "{{secrets.prod.apache.hostname}}"
+db:
+  remote_access: no
+  renderd_password: "{{secrets.prod.db.renderd_password}}"
 icmp: no
