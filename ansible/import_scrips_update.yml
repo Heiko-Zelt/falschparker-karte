@@ -3,6 +3,8 @@
 - name: "Updates Import-Scripts"
   hosts: all
   user: root
+  become: true
+  become_user: "importeur"
   vars:
     jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
   tasks:
@@ -46,8 +48,12 @@
   - name: "mv"
     command: "mv /tmp/test-git-clone/import /home/importeur/import"
 
-  - name: "chown"
-    command: "chown -R importeur: /home/importeur/import"
+  - file:
+      path: "/tmp/test-git-clone"
+      state: "absent"
+
+  #- name: "chown"
+  #command: "chown -R importeur: /home/importeur/import"
 
   #- template:
   #  src: "prerender_tiles.sh.j2"
