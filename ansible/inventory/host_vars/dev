@@ -3,6 +3,7 @@ ansible_port: "{{secrets.dev.ssh.port}}"
 apache:
   hostname: "{{secrets.dev.apache.hostname}}"
 db:
+  name: "gis"
   remote_access: yes
   postgres_password: "{{secrets.dev.db.renderd_password}}"
   renderd_password: "{{secrets.dev.db.renderd_password}}"

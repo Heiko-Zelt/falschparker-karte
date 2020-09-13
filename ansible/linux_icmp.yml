@@ -9,13 +9,13 @@
     when: "ansible_limit is not defined"
 
   - debug:
-      var: "icmp"
+      var: "linux.network.icmp"
 
   - fail:
-    when: "icmp is not defined"
+    when: "linux.network.icmp is not defined"
 
   - set_fact:
-      binary_digit: "{{ (not icmp)|int }}"
+      binary_digit: "{{ (not linux.network.icmp)|int }}"
 
   - debug:
       var: "binary_digit"

@@ -3,7 +3,15 @@ ansible_port: "{{secrets.test.ssh.port}}"
 apache:
   hostname: "{{secrets.test.apache.hostname}}"
 db:
+  name: "gis"
   remote_access: yes
   renderd_password: "{{secrets.test.db.renderd_password}}"
   postgres_password: "{{secrets.test.db.postgres_password}}"
-icmp: no
+linux:
+  users:
+    railsapp:
+      password: "{{secrets.test.linux.users.railsapp.password}}"
+    importeur:
+      password: "{{secrets.test.linux.users.railsapp.password}}"
+  network:
+    icmp: no

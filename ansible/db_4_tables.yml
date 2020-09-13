@@ -1,0 +1,30 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Creates database tables"
+  hosts: "all"
+  user: "root"
+  become: true
+  become_user: "postgres"
+  vars:
+    temp_dir: "/tmp/ansible/postgres"
+    temp_file: "{{temp_dir}}/4_tables.sql"
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - file:
+      path: "{{temp_dir}}"
+      state: "directory"
+
+  - copy:
+      src: "../db/4_tables.sql"
+      dest: "{{temp_file}}"
+
+  - name: "run SQL script"
+    shell:
+      cmd: "/usr/bin/psql --echo-all --dbname {{db.name}} <{{temp_file}}"
+    register: "psql"
+
+  - debug:
+      var: "psql" 

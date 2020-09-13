@@ -3,6 +3,7 @@ ansible_port: "{{secrets.prod.ssh.port}}"
 apache:
   hostname: "{{secrets.prod.apache.hostname}}"
 db:
+  name: "gis"
   remote_access: no
   renderd_password: "{{secrets.prod.db.renderd_password}}"
 icmp: no

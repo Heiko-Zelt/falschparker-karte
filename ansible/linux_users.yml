@@ -1,0 +1,23 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "add linux users"
+  hosts: all
+  user: root
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - user:
+      name: "importeur"
+      comment: "imports data"
+      shell: "/bin/bash"
+      create_home: yes
+      password: "{{linux.users.importeur.password}}"
+
+  - user:
+      name: "railsapp"
+      comment: "runs ruby on rails app"
+      shell: "/bin/bash"
+      create_home: yes
+      password: "{{linux.users.railsapp.password}}"
