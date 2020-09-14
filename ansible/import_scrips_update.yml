@@ -7,18 +7,19 @@
   become_user: "importeur"
   vars:
     jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
+    temp_dir: "/tmp/ansible/importeur"
   tasks:
   - fail:
       msg: "Use --limit!"
     when: "ansible_limit is not defined"
         
   - file:
-      path: "/tmp/test-git-clone"
+      path: "{{temp_dir}}"
       state: "absent"
 
   - git:
       repo: "{{git_repo_url}}"
-      dest: "/tmp/test-git-clone"
+      dest: "{{temp_dir}}"
   #  run_once: true
   # delegate_to: localhost
 
@@ -46,10 +47,10 @@
   #    group: "importeur"
 
   - name: "mv"
-    command: "mv /tmp/test-git-clone/import /home/importeur/import"
+    command: "mv {{temp_dir}}/import /home/importeur/import"
 
   - file:
-      path: "/tmp/test-git-clone"
+      path: "{{temp_dir}}"
       state: "absent"
 
   #- name: "chown"
