@@ -13,7 +13,7 @@
  
   - name: "users without password / unix socket connect only"
     postgresql_user:
-      db: "gis"
+      db: "{{db.name}}"
       name: "{{item}}"
     loop:
       - "importeur"
@@ -22,7 +22,7 @@
   # renderd can't connect via unix socket
   - name: "users with password"
     postgresql_user:
-      db: "gis"
+      db: "{{db.name}}"
       name: "renderd"
-      password: "{{db.renderd_password}}"
+      password: "{{db.users.renderd.password}}"
       encrypted: yes

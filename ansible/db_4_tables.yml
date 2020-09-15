@@ -27,4 +27,4 @@
     register: "psql"
 
   - debug:
-      var: "psql" 
+      var: "psql.stderr_lines" 

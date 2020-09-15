@@ -11,7 +11,32 @@
     when: "ansible_limit is not defined"
 
   - postgresql_privs:
-      db: "gis"
+      db: "{{db.name}}"
+      type: "database"
       role: "importeur"
-      objs: "ALL_IN_SCHEMA"
+      privs: "CONNECT"
+
+  # osm2pgsql creates tables
+  # GRANT CREATE ON DATABASE gis TO importeur;
+  # GRANT CREATE ON TABLESPACE pg_default TO importeur;
+  # GRANT CREATE ON SCHEMA               public TO importeur; -- das war die Loesung!
+  # GRANT USAGE  ON SCHEMA               public TO importeur;
+  # GRANT ALL    ON ALL TABLES IN SCHEMA public TO importeur;
+  - postgresql_privs:
+      db: "{{db.name}}"
+      type: "schema"
+      objs: "public"
+      role: "importeur"
+      privs: "CREATE,USAGE"
+
+  - postgresql_privs:
+      db: "{{db.name}}"
+      type: "database"
+      role: "railsapp"
+      privs: "CONNECT"
+
+  - postgresql_privs:
+      db: "{{db.name}}"
+      type: "database"
+      role: "renderd"
       privs: "CONNECT"

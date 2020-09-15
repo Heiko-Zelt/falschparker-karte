@@ -5,6 +5,12 @@ apache:
 db:
   name: "gis"
   remote_access: yes
-  postgres_password: "{{secrets.dev.db.renderd_password}}"
-  renderd_password: "{{secrets.dev.db.renderd_password}}"
-icmp: yes
+  users:
+    postgres:
+      password: "{{secrets.dev.db.users.renderd.password}}"
+    renderd:
+      password: "{{secrets.dev.db.users.renderd.password}}"
+linux:
+  users:
+  network:
+    icmp: yes

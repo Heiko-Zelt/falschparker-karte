@@ -44,3 +44,5 @@
       - "postgresql-12-postgis-3"
       - "python-pip"
       - "libpq-dev"
+      - "osm2pgsql"
+      - "osmosis"

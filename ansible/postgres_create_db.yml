@@ -1,7 +1,7 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "Creates PostgreSQL DB 'gis'"
-  hosts: all
+- name: "Creates PostgreSQL DB"
+  hosts: "all"
   user: "root"
   become: true
   become_user: "postgres"
@@ -11,4 +11,24 @@
     when: "ansible_limit is not defined"
 
   - postgresql_db:
-      name: "gis"
+      name: "{{db.name}}"
+
+  # by default everyone can create objects in the 'public' schema
+  # REVOKE
+  - name: "Lock down PUBLIC schema"
+    postgresql_privs:
+      db: "{{db.name}}"
+      state: "absent"
+      type: "schema"
+      objs: "public"
+      privs: "CREATE,USAGE"
+      role: "PUBLIC"
+
+  # REVOKE
+  - name: "Lock down DB"
+    postgresql_privs:
+      db: "{{db.name}}"
+      state: "absent"
+      type: "database"
+      privs: "CONNECT,TEMPORARY"
+      role: "PUBLIC"

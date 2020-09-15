@@ -19,8 +19,8 @@
 
   - set_fact:
       block1: |
-        local   gis             railsapp,importeur                      peer
-        host    gis             renderd         samehost                md5
+        local   {{db.name}}             railsapp,importeur                      peer
+        host    {{db.name}}             renderd         samehost                md5
 
   - set_fact:
       block2: |

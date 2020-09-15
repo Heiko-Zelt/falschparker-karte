@@ -5,8 +5,11 @@ apache:
 db:
   name: "gis"
   remote_access: yes
-  renderd_password: "{{secrets.test.db.renderd_password}}"
-  postgres_password: "{{secrets.test.db.postgres_password}}"
+  users:
+    renderd:
+      password: "{{secrets.test.db.users.renderd.password}}"
+    postgres:
+      password: "{{secrets.test.db.users.postgres.password}}"
 linux:
   users:
     railsapp:

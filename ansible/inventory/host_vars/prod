@@ -5,5 +5,10 @@ apache:
 db:
   name: "gis"
   remote_access: no
-  renderd_password: "{{secrets.prod.db.renderd_password}}"
-icmp: no
+  users:
+    renderd:
+      password: "{{secrets.prod.db.users.renderd.password}}"
+linux:
+  users:
+  network:
+    icmp: no

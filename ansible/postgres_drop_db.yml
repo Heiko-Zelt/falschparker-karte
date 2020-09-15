@@ -1,6 +1,6 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "add PostgreSQL extension"
+- name: "Drops PostgreSQL DB"
   hosts: "all"
   user: "root"
   become: true
@@ -10,6 +10,6 @@
       msg: "Use --limit!"
     when: "ansible_limit is not defined"
 
-  - postgresql_ext:
-      db: "{{db.name}}"
-      name: "postgis"
+  - postgresql_db:
+      name: "{{db.name}}"
+      state: "absent"
