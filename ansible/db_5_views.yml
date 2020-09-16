@@ -6,7 +6,7 @@
   become: true
   become_user: "postgres"
   vars:
-    temp_dir: "/tmp/ansible/postgres"
+    temp_dir: "/tmp/ansible-postgres"
     temp_file: "{{temp_dir}}/5_views.sql"
   tasks:
   - fail:

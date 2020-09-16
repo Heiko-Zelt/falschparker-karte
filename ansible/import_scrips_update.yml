@@ -7,7 +7,7 @@
   become_user: "importeur"
   vars:
     jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
-    temp_dir: "/tmp/ansible/importeur"
+    temp_dir: "/tmp/ansible-importeur"
   tasks:
   - fail:
       msg: "Use --limit!"
