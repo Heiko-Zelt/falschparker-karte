@@ -1,0 +1,17 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Installs required Ruby gems/modules"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - fail:
+      msg: "Use --limit!"
+    when: "ansible_limit is not defined"
+
+  - gem:
+      name: "{{item}}"
+      user_install: no
+      #name: "rails,bundler,nokogiri,pg"
+    loop:
+      - "rails"
+      - "pg" 
