@@ -1,0 +1,35 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Updates HTML files"
+  hosts: "all"
+  user: "root"
+  vars:
+    jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
+    temp_dir: "/tmp/ansible-root"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+        
+  - file:
+      path: "{{temp_dir}}"
+      state: "absent"
+
+  - git:
+      repo: "{{git_repo_url}}"
+      dest: "{{temp_dir}}"
+ 
+  - stat:
+      path: "/var/www/html"
+    register: "html_dir"
+
+  - name: "backup"
+    command: "mv /var/www/html /var/www/html.backup{{jetzt}}"
+    when: "html_dir.stat.exists"
+
+  - name: "mv"
+    command: "mv {{temp_dir}}/htdocs /var/www/html"
+
+  - file:
+      path: "{{temp_dir}}"
+      state: "absent"

@@ -1,15 +1,14 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "Drops PostgreSQL DB"
+- name: "Installs required NodeJS packages"
   hosts: "all"
   user: "root"
-  become: true
-  become_user: "postgres"
   tasks:
   - assert:
       msg: "Use --limit!"
       that: "ansible_limit is defined"
 
-  - postgresql_db:
-      name: "{{db.name}}"
-      state: "absent"
+  - npm:
+      name: "{{item}}"
+    loop:
+      - "lts/carbon"

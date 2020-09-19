@@ -1,0 +1,31 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "removes passords from tilemill project and copies it to git repository"
+  hosts: "all"
+  user: "root"
+  become: true
+  become_user: "importeur"
+  vars:
+    temp_dir: "/tmp/ansible-importeur"
+    script: "mapstyle_tilemile_to_template.py"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+
+  - file:
+      path: "{{temp_dir}}"
+      state: "directory"
+
+  - copy:
+      src: "{{script}}"
+      dest: "{{temp_dir}}/{{script}}"
+      mode: 0760
+
+  - command:
+      cmd: "{{temp_dir}}/{{script}}"
+    register: "cmd"
+
+  - debug:
+      var: "cmd"
+

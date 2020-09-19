@@ -2,6 +2,10 @@ ansible_host: "{{secrets.dev.ssh.host}}"
 ansible_port: "{{secrets.dev.ssh.port}}"
 apache:
   hostname: "{{secrets.dev.apache.hostname}}"
+  serveradmin: "hz@heikozelt.de"
+  tls:
+    cert: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+    key:  "/etc/ssl/private/ssl-cert-snakeoil.key"
 db:
   name: "gis"
   remote_access: yes

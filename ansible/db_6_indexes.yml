@@ -9,9 +9,9 @@
     temp_dir: "/tmp/ansible-postgres"
     temp_file: "{{temp_dir}}/6_indexes.sql"
   tasks:
-  - fail:
+  - assert:
       msg: "Use --limit!"
-    when: "ansible_limit is not defined"
+      that: "ansible_limit is defined"
 
   - file:
       path: "{{temp_dir}}"

@@ -1,0 +1,83 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Configure Apache 2 HTTP Server"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+
+  #- name: "Switch off directory listing, remove symbolic links"
+  #  file:
+  #    path: "{{item}}"
+  #    state: "absent"
+  #  loop:
+  #    - "/etc/apache2/mods-enabled/autoindex.conf"
+  #    - "/etc/apache2/mods-enabled/autoindex.load"
+
+  - name: "disable apache modules"
+    apache2_module:
+      name: "autoindex"
+      state: "absent"
+      force: yes
+
+  - name: "enable apache modules"
+    apache2_module:
+      name: "{{item}}"
+      state: "present"
+    loop:
+      - "proxy"
+      - "proxy_http"
+      - "ssl"
+
+  - name: "remove symbolic links to disable default sites"
+    file:
+      path: "/etc/apache2/sites-enabled/{{item}}.conf"
+      state: "absent"
+    loop:
+      - "000-default"
+      - "tileserver_site"
+
+  - name: "create symbolic links to enable custom sites"
+    file:
+      src: "../sites-available/{{item}}.conf"
+      dest: "/etc/apache2/sites-enabled/{{item}}.conf"
+      state: "link"
+    loop:
+      - "falschparker"
+      - "falschparker-tls"
+
+  - name: "apache2.conf"
+    template:
+      src: "apache2.conf.j2"
+      dest: "/etc/apache2/apache2.conf"
+      backup: yes
+      mode: 0640
+
+  - name: "security.conf"
+    copy:
+      src: "apache_conf_security.conf"
+      dest: "/etc/apache2/conf-available/security.conf"
+      backup: yes
+      mode: 0640
+
+  - name: "falschparker.conf"
+    template:
+      src: "apache_site_falschparker.conf.j2"
+      dest: "/etc/apache2/sites-available/falschparker.conf"
+      backup: yes
+      mode: 0640
+
+  - name: "falschparker-tls.conf"
+    template:
+      src: "apache_site_falschparker-tls.conf.j2"
+      dest: "/etc/apache2/sites-available/falschparker-tls.conf"
+      backup: yes
+      mode: 0640
+
+  - name: "restart Apache"
+    systemd:
+      name: "apache2"
+      state: "restarted"
+

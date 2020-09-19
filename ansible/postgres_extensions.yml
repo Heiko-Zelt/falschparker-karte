@@ -6,9 +6,9 @@
   become: true
   become_user: "postgres"
   tasks:
-  - fail:
+  - assert:
       msg: "Use --limit!"
-    when: "ansible_limit is not defined"
+      that: "ansible_limit is defined"
 
   - postgresql_ext:
       db: "{{db.name}}"

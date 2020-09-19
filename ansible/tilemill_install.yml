@@ -1,0 +1,20 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Installs TileMill, map stylesheets editor"
+  hosts: "all"
+  user: "root"
+  become: true
+  become_user: "importeur"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+        
+  - name: "Download TileMill from github"
+    git:
+      repo: "https://github.com/tilemill-project/tilemill.git"
+      dest: "/home/importeur/tilemill"
+
+  - name: "Install NodeJS packages which are needed by tilemill"
+    npm:
+      path: "/home/importeur/tilemill"

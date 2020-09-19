@@ -4,9 +4,9 @@
   hosts: all
   user: root
   tasks:
-  - fail:
+  - assert:
       msg: "Use --limit!"
-    when: "ansible_limit is not defined"
+      that: "ansible_limit is defined"
 
   - user:
       name: "importeur"

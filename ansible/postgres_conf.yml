@@ -4,9 +4,9 @@
   hosts: "all"
   user: "root"
   tasks:
-  - fail:
+  - assert:
       msg: "Use --limit!"
-    when: "ansible_limit is not defined"
+      that: "ansible_limit is defined"
 
   - set_fact:
       line: "listen_addresses = '{% if db.remote_access %}*{% else %}localhost{% endif %}'       # what IP adress(es) to listen on;"

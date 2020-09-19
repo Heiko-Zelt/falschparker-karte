@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+  ServerName {{apache.hostname}}
+  ServerAdmin {{apache.serveradmin}}
+  DocumentRoot /var/www/html
+  LogLevel info
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log heiko
+
+  Redirect permanent / https://{{apache.hostname}}/
+
+  ProxyPass        /gis http://localhost:3000/gis
+  ProxyPassReverse /gis http://localhost:3000/gis
+
+  ModTileTileDir /var/lib/mod_tile/falschparker
+  LoadTileConfigFile /etc/renderd.conf
+  ModTileEnableStats On
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
