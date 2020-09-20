@@ -1,0 +1,31 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Changes user from www-data to renderd"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+        
+  - file:
+      path: "/var/lib/mod_tile/falschparker"
+      state: "directory"
+      owner: "renderd"
+      group: "renderd"
+    register: "d"
+
+  - replace:
+      path: "/etc/init.d/renderd"
+      regexp: '^RUNASUSER=.*$'
+      replace: "RUNASUSER=renderd"
+      backup: yes
+    register: "f"
+
+  - name: "restart renderd"
+    systemd:
+      name: "renderd"
+      state: "restarted"
+      daemon_reload: yes
+    when: "d.changed or f.changed"
+ 

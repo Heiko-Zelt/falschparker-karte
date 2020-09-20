@@ -1,0 +1,19 @@
+[renderd]
+stats_file=/var/run/renderd/renderd.stats
+socketname=/var/run/renderd/renderd.sock
+num_threads=5
+tile_dir=/var/lib/mod_tile/falschparker
+
+[mapnik]
+plugins_dir=/usr/lib/mapnik/3.0/input
+font_dir=/usr/share/fonts/truetype
+font_dir_recurse=1
+
+[default]
+URI=/falschparker_tiles/
+TILEDIR=/var/lib/mod_tile/falschparker
+XML=/etc/falschparker_style.xml
+HOST={{apache.hostname}}
+DESCRIPTION=This is the Falschparker mapnik style
+TILESIZE=256
+MAXZOOM=19

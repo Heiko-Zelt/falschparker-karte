@@ -10,40 +10,88 @@
       msg: "Use --limit!"
       that: "ansible_limit is defined"
 
-  - postgresql_privs:
+
+  # importeur user
+  - name: "GRANT CONNECT ON DATABASE ... TO importeur"
+    postgresql_privs:
       db: "{{db.name}}"
       type: "database"
       role: "importeur"
       privs: "CONNECT"
-
   # osm2pgsql creates tables
-  # GRANT CREATE ON DATABASE gis TO importeur;
-  # GRANT CREATE ON TABLESPACE pg_default TO importeur;
-  # GRANT CREATE ON SCHEMA               public TO importeur; -- das war die Loesung!
-  # GRANT USAGE  ON SCHEMA               public TO importeur;
-  # GRANT ALL    ON ALL TABLES IN SCHEMA public TO importeur;
-  - postgresql_privs:
+  - name: "GRANT CREATE, USAGE ON SCHEMA public TO importeur"
+    postgresql_privs:
       db: "{{db.name}}"
       type: "schema"
       objs: "public"
       role: "importeur"
       privs: "CREATE,USAGE"
-
-  - postgresql_privs:
+  - name: "GRANT INSERT, UPDATE, DELETE, TRUNCATE, SELECT ON charge_types TO importeur"
+    postgresql_privs:
       db: "{{db.name}}"
       type: "table"
       objs: "charge_types"
       role: "importeur"
       privs: "INSERT,UPDATE,DELETE,TRUNCATE,SELECT"
 
-  - postgresql_privs:
+  # railsapp user
+  - name: "GRANT CONNECT ON DATABASE ... TO railsapp"
+    postgresql_privs:
       db: "{{db.name}}"
       type: "database"
       role: "railsapp"
       privs: "CONNECT"
+  - name: "GRANT USAGE ON SCHEMA public TO railsapp"
+    postgresql_privs:
+      db: "{{db.name}}"
+      type: "schema"
+      objs: "public"
+      role: "railsapp"
+      privs: "USAGE"
+  - name: "GRANT SELECT ON ... TO railsapp"
+    postgresql_privs:
+      db: "{{db.name}}"
+      type: "table"
+      role: "railsapp"
+      obj: "{{item}}"
+      privs: "SELECT"
+    loop:
+      - "notices_wgs84"
+      - "de_falschparker_webm"
+      - "simple_boundaries"
+      - "charge_types"
 
-  - postgresql_privs:
+
+  # renderd user
+  - name: "GRANT CONNECT ON DATABASE ... TO renderd"
+    postgresql_privs:
       db: "{{db.name}}"
       type: "database"
       role: "renderd"
       privs: "CONNECT"
+  - name: "GRANT USAGE ON SCHEMA public TO renderd"
+    postgresql_privs:
+      db: "{{db.name}}"
+      type: "schema"
+      objs: "public"
+      role: "renderd"
+      privs: "USAGE"
+  - name: "GRANT SELECT ON ... TO renderd"
+    postgresql_privs:
+      db: "{{db.name}}"
+      type: "table"
+      role: "renderd"
+      obj: "{{item}}"
+      privs: "SELECT"
+    loop:
+      - "notices_webm"
+      - "de_falschparker_level2_webm"
+      - "de_falschparker_level4_webm"
+      - "de_falschparker_level5_webm"
+      - "de_falschparker_level6_webm"
+      - "de_falschparker_level7_webm"
+      - "de_falschparker_level8_webm"
+      - "de_falschparker_level9_webm"
+      - "de_falschparker_level10_webm"
+      - "de_falschparker_level11_webm"
+      - "de_falschparker_level12_webm"
