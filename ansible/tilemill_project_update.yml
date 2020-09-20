@@ -7,20 +7,25 @@
   become_user: "importeur"
   vars:
     project_dir: "/home/importeur/Documents/MapBox/project/falschparker"
-    db_host: "localhost"
-    db_port: 5432
-    db_user: "renderd"
-    db_password: "{{db.users.renderd.password}}"
+    ds_host: "localhost"
+    ds_port: 5432
+    ds_user: "renderd"
+    ds_password: "{{db.users.renderd.password}}"
   tasks:
   - assert:
       msg: "Use --limit!"
       that: "ansible_limit is defined"
 
-  - copy:
+  - name: "copy style.mss"
+    copy:
       src: "../map/style/style.mss"
       dest: "{{project_dir}}/style.mss"
       mode: 0660
+      backup: yes
 
-  - template:
+  - name: "template project.mml.j2" 
+    template:
       src: "../map/style/project.mml.j2"
       dest: "{{project_dir}}/project.mml"
+      mode: 0660
+      backup: yes

@@ -15,6 +15,41 @@
       repo: "https://github.com/tilemill-project/tilemill.git"
       dest: "/home/importeur/tilemill"
 
-  - name: "Install NodeJS packages which are needed by tilemill"
-    npm:
-      path: "/home/importeur/tilemill"
+  #- name: "install lts/carbon"
+  #  shell:
+  #    cmd: ". ~/.nvm/nvm.sh; nvm install lts/carbon"
+  #  args:
+  #    chdir: "/home/importeur/tilemill"
+  #  register: "carbon"
+  #
+  #- debug:
+  #    var: "{{item}}"
+  #  loop:
+  #    - "carbon.stdout_lines"
+  #    - "carbon.stderr_lines"
+  #
+  #- name: "use NodeJS 8.15.0"
+  #  shell:
+  #    cmd: ". ~/.nvm/nvm.sh; nvm use v8.15.0"
+  #  args:
+  #    chdir: "/home/importeur/tilemill"
+  #  register: "use"
+  #
+  #- debug:
+  #    var: "{{item}}"
+  #  loop:
+  #    - "use.stdout_lines"
+  #    - "use.stderr_lines"
+
+  - name: "install NodeJS packages"
+    command:
+      cmd: "npm install"
+    args:
+      chdir: "/home/importeur/tilemill"
+    register: "npm_install"
+
+  - debug:
+      var: "{{item}}"
+    loop:
+      - "npm_install.stdout_lines"
+      - "npm_install.stderr_lines"

@@ -1,12 +1,17 @@
 #!/usr/bin/python3
-import json, os
+import json
+data = json.load(sys.stdin)
 
-projectDir = '/home/importeur/Documents/MapBox/project/falschparker'
+#print(data);
+#data['Layer'][0]['Datasource']['password'] = '{{password}}'
+#print(data.keys());
+#data['minzoom'] = 4
 
-with open(os.path.join(projectDir, 'project.mml'), 'r') as f:
-  data = json.load(f)
+for layer in data['Layer']:
+  ds = layer['Datasource']
+  ds['host']     = '{{ds_host}}'
+  ds['port']     = '{{ds_port}}'
+  ds['user']     = '{{ds_user}}'
+  ds['password'] = '{{ds_password}}'
 
-print(data);
-
-with open(os.path.join(projectDir, 'project.mml.j2'), 'w') as f:
-  json.dump(data, f, indent=2)
+json.dump(data, sys.stdout, indent=2)

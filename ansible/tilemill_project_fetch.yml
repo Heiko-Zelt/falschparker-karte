@@ -6,26 +6,32 @@
   become: true
   become_user: "importeur"
   vars:
-    temp_dir: "/tmp/ansible-importeur"
-    script: "mapstyle_tilemile_to_template.py"
+    script: "mapstyle_tilemill_to_template.py"
+    project_dir: "/home/importeur/Documents/MapBox/project/falschparker"
   tasks:
   - assert:
       msg: "Use --limit!"
       that: "ansible_limit is defined"
 
-  - file:
-      path: "{{temp_dir}}"
-      state: "directory"
-
   - copy:
-      src: "{{script}}"
-      dest: "{{temp_dir}}/{{script}}"
+      src: "../map/{{script}}"
+      dest: "/home/importeur/{{script}}"
       mode: 0760
 
-  - command:
-      cmd: "{{temp_dir}}/{{script}}"
+  - name: "convert project file to template"
+    shell:
+      cmd: "/home/importeur/{{script}} <{{project_dir}}/project.mml >{{project_dir}}/project.mml.j2"
     register: "cmd"
 
   - debug:
       var: "cmd"
 
+  - fetch:
+      src: "{{project_dir}}/project.mml.j2"
+      dest: "../map/style/project.mml.j2"
+      flat: yes
+
+  - fetch:
+      src: "{{project_dir}}/style.mss"
+      dest: "../map/style/style.mms"
+      flat: yes

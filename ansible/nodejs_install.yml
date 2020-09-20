@@ -1,21 +1,29 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "Installs newer NodeJS version from source for TileMill"
+- name: "Installs old NodeJS version for TileMill"
   hosts: "all"
   user: "root"
   tasks:
   - assert:
       msg: "Use --limit!"
       that: "ansible_limit is defined"
-        
+       
   - name: "Download install script"
-    command:
-      cmd: "wget https://deb.nodesource.com/setup_14.x"
+    get_url:
+      url: "https://deb.nodesource.com/setup_8.x"
+      dest: "~/setup_8.x"
+      mode: 0740
 
   - name: "Run install script"
     command:
-      cmd: "setup_14.x"
+      cmd: "~/setup_8.x"
     register: "setup"
 
   - debug:
-      var: "setup"
+      var: "{{item}}"
+    loop:
+      - "setup.stdout_lines"
+      - "setup.stderr_lines"
+
+  - apt:
+      pkg: "nodejs"
