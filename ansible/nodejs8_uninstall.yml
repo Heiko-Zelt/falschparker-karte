@@ -1,0 +1,20 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Removes old NodeJS version 8 for TileMill"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+       
+  - apt:
+      pkg: "nodejs"
+      state: "absent"
+
+  - apt_repository:
+      repo: "{{item}}"
+      state: "absent"
+    loop:
+      - "deb https://deb.nodesource.com/node_8.x bionic main"
+      - "deb-src https://deb.nodesource.com/node_8.x bionic main"

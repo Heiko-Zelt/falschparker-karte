@@ -1,6 +1,6 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "Installs old NodeJS version for TileMill"
+- name: "Installs old NodeJS version 8 for TileMill"
   hosts: "all"
   user: "root"
   tasks:
