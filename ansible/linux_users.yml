@@ -21,3 +21,10 @@
       shell: "/bin/bash"
       create_home: yes
       password: "{{linux.users.railsapp.password}}"
+
+  - user:
+      name: "renderd"
+      comment: "runs render deamon"
+      shell: "/bin/bash"
+      create_home: yes
+      password: "{{linux.users.renderd.password}}"

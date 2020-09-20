@@ -10,5 +10,6 @@
 
   - npm:
       name: "{{item}}"
+      global: yes
     loop:
-      - "lts/carbon"
+      - "carto"

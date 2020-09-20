@@ -9,6 +9,7 @@
       that: "ansible_limit is defined"
        
   - apt:
+      update_cache: yes
       pkg: "nodejs"
       state: "absent"
 

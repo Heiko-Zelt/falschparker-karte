@@ -16,9 +16,11 @@ db:
       password: "{{secrets.test.db.users.postgres.password}}"
 linux:
   users:
-    railsapp:
-      password: "{{secrets.test.linux.users.railsapp.password}}"
     importeur:
       password: "{{secrets.test.linux.users.railsapp.password}}"
+    railsapp:
+      password: "{{secrets.test.linux.users.railsapp.password}}"
+    renderd:
+      password: "{{secrets.test.linux.users.renderd.password}}"
   network:
     icmp: no

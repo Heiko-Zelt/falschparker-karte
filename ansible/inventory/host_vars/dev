@@ -16,5 +16,11 @@ db:
       password: "{{secrets.dev.db.users.renderd.password}}"
 linux:
   users:
+    importeur:
+      password: "{{secrets.dev.linux.users.railsapp.password}}"
+    railsapp:
+      password: "{{secrets.dev.linux.users.railsapp.password}}"
+    renderd:
+      password: "{{secrets.dev.linux.users.renderd.password}}"
   network:
     icmp: yes

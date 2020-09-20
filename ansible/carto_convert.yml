@@ -1,0 +1,27 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Installs TileMill, map stylesheets editor (carto CSS coverter is included)"
+  hosts: "all"
+  user: "root"
+  vars:
+    project_dir: "/home/importeur/Documents/MapBox/project/falschparker"
+    carto_cmd: "/home/importeur/tilemill/node_modules/carto/bin/carto"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+        
+  - name: "convert Tilemill project to Mapnik style"
+    shell:
+      cmd: "{{carto_cmd}} {{project_dir}}/project.mml > {{project_dir}}/project.xml"
+    become: true
+    become_user: "importeur"
+
+  - name: "copy Mapnik style to /etc directory to be used by renderd"
+    copy:
+      src: "{{project_dir}}/project.xml"
+      dest: "/etc/falschparker_style.xml"
+      remote_src: true
+      mode: 0640
+      owner: "renderd"
+      group: "renderd"

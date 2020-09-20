@@ -1,6 +1,6 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "Installs TileMill, map stylesheets editor"
+- name: "Installs TileMill, map stylesheets editor (carto CSS converter is included)"
   hosts: "all"
   user: "root"
   become: true
@@ -14,32 +14,6 @@
     git:
       repo: "https://github.com/tilemill-project/tilemill.git"
       dest: "/home/importeur/tilemill"
-
-  #- name: "install lts/carbon"
-  #  shell:
-  #    cmd: ". ~/.nvm/nvm.sh; nvm install lts/carbon"
-  #  args:
-  #    chdir: "/home/importeur/tilemill"
-  #  register: "carbon"
-  #
-  #- debug:
-  #    var: "{{item}}"
-  #  loop:
-  #    - "carbon.stdout_lines"
-  #    - "carbon.stderr_lines"
-  #
-  #- name: "use NodeJS 8.15.0"
-  #  shell:
-  #    cmd: ". ~/.nvm/nvm.sh; nvm use v8.15.0"
-  #  args:
-  #    chdir: "/home/importeur/tilemill"
-  #  register: "use"
-  #
-  #- debug:
-  #    var: "{{item}}"
-  #  loop:
-  #    - "use.stdout_lines"
-  #    - "use.stderr_lines"
 
   - name: "install NodeJS packages"
     command:

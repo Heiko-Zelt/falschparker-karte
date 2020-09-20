@@ -30,13 +30,17 @@
       state: "present"
       validate_certs: yes
 
-  - apt_repository:
-      repo: "ppa:kakrueger/openstreetmap"
-      state: "present"
-      validate_certs: yes
+  #- apt_repository:
+  #    repo: "ppa:kakrueger/openstreetmap"
+  #    state: "present"
+  #    validate_certs: no
 
   - apt_key:
       url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+      state: "present"
+
+  - apt_key:
+      url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6e2ff3f9529d1a4ed6b7f015ae74800fb745a04c"
       state: "present"
 
   - name: "updating APT cache"
@@ -62,9 +66,14 @@
       - "libapache2-mod-tile"
       - "libffi-dev"
       - "libmapnik3.0"
+      - "libmapnik-dev"
       - "libpq-dev"
-      - "nodejs"
+      - "mapnik-utils"
+      #- "node-carto"
+      #- "nodejs"
       - "npm"
+      - "openstreetmap-carto"
+      - "openstreetmap-carto-common"
       - "osm2pgsql"
       - "osmosis"
       - "zlib1g-dev"

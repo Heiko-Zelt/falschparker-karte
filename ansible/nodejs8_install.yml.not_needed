@@ -26,4 +26,5 @@
       - "setup.stderr_lines"
 
   - apt:
+      update_cache: yes
       pkg: "nodejs"
