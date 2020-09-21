@@ -24,3 +24,5 @@ linux:
       password: "{{secrets.dev.linux.users.renderd.password}}"
   network:
     icmp: yes
+rails:
+  environment: "development"

@@ -1,0 +1,17 @@
+[Unit]
+Description=Rails Application Server with Falschparker Application
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=railsapp
+Group=railsapp
+Restart=always
+RestartSec=1
+WorkingDirectory=/var/rails/falschparker
+ExecStart=/usr/local/bin/bundle exec rails s -p 3000 -e {{rails.environment}} --binding localhost
+
+[Install]
+WantedBy=multi-user.target
+

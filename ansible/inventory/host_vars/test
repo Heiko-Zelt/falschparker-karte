@@ -24,3 +24,5 @@ linux:
       password: "{{secrets.test.linux.users.renderd.password}}"
   network:
     icmp: no
+rails:
+  environment: "test"

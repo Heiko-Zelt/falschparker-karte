@@ -22,3 +22,5 @@ linux:
       password: "{{secrets.prod.linux.users.renderd.password}}"
   network:
     icmp: no
+rails:
+  environment: "production"

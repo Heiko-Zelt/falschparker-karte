@@ -45,7 +45,7 @@
     when: "s.stat.exists"
 
   - name: "mv"
-    command: "mv {{temp_dir}}/webservice {{rails_dir}}"
+    command: "mv {{temp_dir}}/webservice/railsapp {{rails_dir}}"
 
   - file:
       path: "{{temp_dir}}"
