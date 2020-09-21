@@ -1,0 +1,10 @@
+class AttributesBoundary < ApplicationRecord
+  # View mit allen Attributen ausser den Polygonen
+  self.table_name = 'attributes_boundaries'
+  self.primary_key = 'osm_id'
+
+  validates :name, presence: true
+  validates :ewz, presence: true
+  validates :taten, presence: true
+  # wozu validieren?
+end

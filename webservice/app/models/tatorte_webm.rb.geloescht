@@ -1,0 +1,11 @@
+class NoticesWebm < ApplicationRecord
+  self.table_name = 'notices_webm'
+ 
+  scope :within, -> (e, w, s, n) {
+    where(%{
+      ST_Within(punkt, ST_MakeEnvelope(%f, %f, %f, %f, 3857)
+    } % [e, w, s, n])
+  }
+
+  validates :punkt, presence: true
+end

@@ -1,0 +1,52 @@
+#!/usr/bin/ansible-playbook
+---
+
+- name: "create base dir"
+  hosts: "all"
+  user: "root"
+  vars:
+    base_dir: "/var/rails"
+  tasks:
+  - file:
+      path: "{{base_dir}}"
+      state: "directory"
+      owner: "railsapp"
+      group: "railsapp"
+      mode: 0770
+
+- name: "Updates Rails Webservice"
+  hosts: "all"
+  user: "root"
+  become: true
+  become_user: "railsapp"
+  vars:
+    jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
+    temp_dir: "/tmp/ansible-railsapp"
+    rails_dir: "/var/rails/falschparker"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+        
+  - file:
+      path: "{{temp_dir}}"
+      state: "absent"
+
+  - git:
+      repo: "{{git_repo_url}}"
+      dest: "{{temp_dir}}"
+ 
+  - stat:
+      path: "{{rails_dir}}/var/rails/falschparker"
+    register: "s"
+
+  - name: "backup"
+    command: "mv {{rails_dir}} {{rails_dir}}.backup{{jetzt}}"
+    when: "s.stat.exists"
+
+  - name: "mv"
+    command: "mv {{temp_dir}}/webservice {{rails_dir}}"
+
+  - file:
+      path: "{{temp_dir}}"
+      state: "absent"
