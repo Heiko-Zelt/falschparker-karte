@@ -16,7 +16,7 @@
       state: "absent"
 
   - git:
-      repo: "{{git_repo_url}}"
+      repo: "{{global.git_repo_url}}"
       dest: "{{temp_dir}}"
  
   - stat:

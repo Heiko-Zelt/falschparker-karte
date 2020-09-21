@@ -17,7 +17,7 @@ default: &default
 development:
   <<: *default
 
-  test:
+test:
   <<: *default
 
 production:

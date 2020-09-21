@@ -7,6 +7,8 @@
   vars:
     base_dir: "/var/rails"
   tasks:
+  - debug:
+      var: "global.rails.dir"
   - file:
       path: "{{base_dir}}"
       state: "directory"
@@ -22,7 +24,6 @@
   vars:
     jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
     temp_dir: "/tmp/ansible-railsapp"
-    rails_dir: "/var/rails/falschparker"
   tasks:
   - assert:
       msg: "Use --limit!"
@@ -33,20 +34,46 @@
       state: "absent"
 
   - git:
-      repo: "{{git_repo_url}}"
+      repo: "{{global.git_repo_url}}"
       dest: "{{temp_dir}}"
  
   - stat:
-      path: "{{rails_dir}}/var/rails/falschparker"
+      path: "{{global.rails.dir}}"
     register: "s"
 
   - name: "backup"
-    command: "mv {{rails_dir}} {{rails_dir}}.backup{{jetzt}}"
+    command: "mv {{global.rails.dir}} {{global.rails.dir}}.backup{{jetzt}}"
     when: "s.stat.exists"
 
   - name: "mv"
-    command: "mv {{temp_dir}}/webservice/railsapp {{rails_dir}}"
+    command: "mv {{temp_dir}}/webservice/railsapp {{global.rails.dir}}"
 
   - file:
       path: "{{temp_dir}}"
       state: "absent"
+
+  - name: "switch to local installation of gems in vendor/bundle"
+    command:
+      cmd: "/usr/local/bin/bundle config set deployment 'true'"
+    args:
+      chdir: "{{global.rails.dir}}"
+    register: "c"
+
+  - debug:
+      var: "{{item}}"
+    loop:
+    - "c.stdout_lines"
+    - "c.stderr_lines"
+
+  - name: "Install needed gems with bundle"
+    command:
+      cmd: "/usr/local/bin/bundle install"
+    args:
+      chdir: "{{global.rails.dir}}"
+    register: "c"
+
+  - debug:
+      var: "{{item}}"
+    loop:
+    - "c.stdout_lines"
+    - "c.stderr_lines"

@@ -8,10 +8,20 @@
       msg: "Use --limit!"
       that: "ansible_limit is defined"
 
+  # Irgendetwas funktioniert nicht richtig!
+  # Die Datei /usr/local/bin/bundle wird nich angelegt!
+  # manuelle Installation: gem install bundler
+
+  - name: "manuelle Installtion von bundler"
+    command:
+      cmd: "gem install bundler"
+
   - gem:
       name: "{{item}}"
       user_install: no
-      #name: "rails,bundler,nokogiri,pg"
+      state: "present"
     loop:
+      #- "bundler"
+      - "nokogiri"
+      - "pg"
       - "rails"
-      - "pg" 
