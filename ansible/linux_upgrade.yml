@@ -12,6 +12,13 @@
     apt:
       upgrade: "full"
       update_cache: yes
+    register: "a"
+
+  - debug:
+      var: "{{item}}"
+    loop:
+    - "a.stdout_lines"
+    - "a.stderr_lines"
 
   - name: "Check if reboot is required"
     stat:

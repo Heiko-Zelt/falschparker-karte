@@ -1,0 +1,22 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Configure OpenSSH server"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+
+  - template:
+      src: "sshd_config.j2"
+      dest: "/etc/ssh/sshd_config"
+      backup: yes
+      mode: 0640
+    register: "t"
+
+  - name: "restart SSH daemon"
+    systemd:
+      name: "ssh"
+      state: "restarted"
+    when: "t.changed"

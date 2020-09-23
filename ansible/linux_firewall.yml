@@ -1,0 +1,20 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Configure Linux IP-tables Firewall"
+  hosts: all
+  user: root
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+
+  - template:
+      src: "rules.v4.j2"
+      dest: "/etc/iptables/rules.v4"
+      backup: yes
+      mode: 0640
+    register: "t"
+
+  - shell:
+      cmd: "iptables-restore </etc/iptables/rules.v4"
+    when: "t.changed"

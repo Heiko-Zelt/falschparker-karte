@@ -1,0 +1,13 @@
+# Generated with Ansible
+*filter
+:INPUT DROP [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p tcp -m tcp --dport {{ansible_port}} -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+{% if db.remote_access %}-A INPUT -p tcp -m tcp --dport 5432 -j ACCEPT
+{% endif %}
+COMMIT

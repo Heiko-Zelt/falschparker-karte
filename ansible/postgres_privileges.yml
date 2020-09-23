@@ -60,7 +60,7 @@
       - "de_falschparker_webm"
       - "simple_boundaries"
       - "charge_types"
-
+      - "schema_migrations"
 
   # renderd user
   - name: "GRANT CONNECT ON DATABASE ... TO renderd"
