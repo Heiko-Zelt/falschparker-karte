@@ -7,14 +7,19 @@
   ErrorLog ${APACHE_LOG_DIR}/error.log
   CustomLog ${APACHE_LOG_DIR}/access.log heiko
 
-  Redirect permanent / https://{{apache.hostname}}/
-
-  ProxyPass        /gis http://localhost:3000/gis
-  ProxyPassReverse /gis http://localhost:3000/gis
-
-  ModTileTileDir /var/lib/mod_tile/falschparker
-  LoadTileConfigFile /etc/renderd.conf
-  ModTileEnableStats On
+  #Redirect permanent / https://{{apache.hostname}}/
+  
+  # Don't redirect every nonsense URL / hacking attack to HTTPS
+  RedirectMatch permanent ^/(\?.*)?$ https://ubuntu.fritz.box/
+  RedirectMatch permanent ^/index.html(\?.*)?$ https://ubuntu.fritz.box/index.html
+  RedirectMatch permanent ^/mystyle.css$ https://ubuntu.fritz.box/mystyle.css
+  RedirectMatch permanent ^/favicon.ico$ https://ubuntu.fritz.box/favicon.ico
+  RedirectMatch permanent ^/js/(.+).js https://ubuntu.fritz.box/js/$1.png
+  RedirectMatch permanent ^/ico/(.+).png$ https://ubuntu.fritz.box/ico/$1.png
+  RedirectMatch permanent ^/pins/(\d+).png$ https://ubuntu.fritz.box/pins/$1.png
+  RedirectMatch permanent ^/images/(.+).png$ https://ubuntu.fritz.box/images/$1.png
+  RedirectMatch permanent ^/gis/(.+) https://ubuntu.fritz.box/gis/$1
+  RedirectMatch permanent ^/falschparker_tiles/(.+) https://ubuntu.fritz.box/falschparker_tiles/$1
 </VirtualHost>
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
