@@ -10,16 +10,16 @@
   #Redirect permanent / https://{{apache.hostname}}/
   
   # Don't redirect every nonsense URL / hacking attack to HTTPS
-  RedirectMatch permanent ^/(\?.*)?$ https://ubuntu.fritz.box/
-  RedirectMatch permanent ^/index.html(\?.*)?$ https://ubuntu.fritz.box/index.html
-  RedirectMatch permanent ^/mystyle.css$ https://ubuntu.fritz.box/mystyle.css
-  RedirectMatch permanent ^/favicon.ico$ https://ubuntu.fritz.box/favicon.ico
-  RedirectMatch permanent ^/js/(.+).js https://ubuntu.fritz.box/js/$1.png
-  RedirectMatch permanent ^/ico/(.+).png$ https://ubuntu.fritz.box/ico/$1.png
-  RedirectMatch permanent ^/pins/(\d+).png$ https://ubuntu.fritz.box/pins/$1.png
-  RedirectMatch permanent ^/images/(.+).png$ https://ubuntu.fritz.box/images/$1.png
-  RedirectMatch permanent ^/gis/(.+) https://ubuntu.fritz.box/gis/$1
-  RedirectMatch permanent ^/falschparker_tiles/(.+) https://ubuntu.fritz.box/falschparker_tiles/$1
+  RedirectMatch permanent ^/(\?.*)?$                https://{{apache.hostname}}/
+  RedirectMatch permanent ^/index.html(\?.*)?$      https://{{apache.hostname}}/index.html
+  RedirectMatch permanent ^/mystyle.css$            https://{{apache.hostname}}/mystyle.css
+  RedirectMatch permanent ^/favicon.ico$            https://{{apache.hostname}}/favicon.ico
+  RedirectMatch permanent ^/js/(.+).js              https://{{apache.hostname}}/js/$1.png
+  RedirectMatch permanent ^/ico/(.+).png$           https://{{apache.hostname}}/ico/$1.png
+  RedirectMatch permanent ^/pins/(\d+).png$         https://{{apache.hostname}}/pins/$1.png
+  RedirectMatch permanent ^/images/(.+).png$        https://{{apache.hostname}}/images/$1.png
+  RedirectMatch permanent ^/gis/(.+)                https://{{apache.hostname}}/gis/$1
+  RedirectMatch permanent ^/falschparker_tiles/(.+) https://{{apache.hostname}}/falschparker_tiles/$1
 </VirtualHost>
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet

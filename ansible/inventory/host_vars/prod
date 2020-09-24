@@ -4,8 +4,8 @@ apache:
   hostname: "{{secrets.prod.apache.hostname}}"
   serveradmin: "hz@heikozelt.de"
   tls:
-    cert: "/etc/letsencrypt/live/{{secret.prod.apache.hostname}}/fullchain.pem"
-    key:  "/etc/letsencrypt/live/{{secret.prod.apache.hostname}}/privkey.pem"
+    cert: "/etc/letsencrypt/live/{{secrets.prod.apache.hostname}}/fullchain.pem"
+    key:  "/etc/letsencrypt/live/{{secrets.prod.apache.hostname}}/privkey.pem"
 db:
   name: "gis"
   remote_access: no
