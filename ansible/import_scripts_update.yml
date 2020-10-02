@@ -67,3 +67,14 @@
       path: "/home/importeur/Downloads"
       state: "directory"
       mode: 0770
+
+- name: "Create target dir for file exports"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - file:
+      path: "/var/exports"
+      state: "directory"
+      mode: 0775
+      owner: "importeur"
+      group: "importeur"
