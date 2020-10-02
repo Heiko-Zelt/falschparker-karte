@@ -16,6 +16,13 @@
     LoadTileConfigFile /etc/renderd.conf
     ModTileEnableStats On
 
+    <Directory /var/exports/>
+      Options -Indexes -FollowSymLinks
+      AllowOverride None
+      Require all granted
+    </Directory>
+    Alias /downloads /var/exports
+
     SSLCertificateFile    {{apache.tls.cert}}
     SSLCertificateKeyFile {{apache.tls.key}}
     #Include /etc/letsencrypt/options-ssl-apache.conf

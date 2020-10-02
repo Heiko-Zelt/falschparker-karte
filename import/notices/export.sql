@@ -1,0 +1,1 @@
+\COPY (SELECT ST_Y(punkt) as latitude, ST_X(punkt) as longitude, date::date, charge_id, src FROM notices_wgs84 ORDER BY date) TO '/var/exports/notices_wgs84.ascii.csv' DELIMITER ',' CSV HEADER ENCODING 'UTF8';

@@ -449,6 +449,10 @@ function initMenu() {
     }
   });
 
+  $('#downloads').click(function() {
+    createDownloads();
+  });
+
   $('#impressum').click(function() {
     createImpressum();
   });
@@ -538,6 +542,31 @@ function createMittlereGemeinden() {
     'Stadt/Gemeinde',
     'mittlere_gemeinden'
   );
+}
+
+function createDownloads() {
+  $('#homeIcon').show();
+  $('#layersIcon').hide();
+  $('#shareIcon').hide();
+  var h = `<div id="content">
+    <h2>Downloads</h2>
+
+    <ul>
+      <li><a href="downloads/wegeheld_notices.utf8.csv.zip">Wegeheld-Meldungen</a> Originaldaten</li>
+      <li><a href="downloads/wegli_notices.utf8.csv.zip">Weg-li.de-Meldungen</a> Originaldaten</li>
+      <li><a href="downloads/notices_wgs84.ascii.csv.zip">Alle Meldungen</a> (src: 1 = Wegeheld, 2 = Weg-li.de)</li>
+      <li><a href="downloads/charge_types.utf8.csv.zip">Katalog Meldungs-Arten</a></li>
+    </ul>
+
+    <p>Alle geographischen Koordinaten sind im
+      <a href="https://de.wikipedia.org/wiki/World_Geodetic_System" target="_blank">WGS 1984</a>
+      Referenzsystem angegeben.</p>
+    <p>Die Originaldaten wurden gefiltert und Wegeheld und Weg-li.de-Meldungen zusammengefasst.
+      Meldungen mit Adresse aber ohne valide Geo-Koordinaten kann ich auf der Karte nicht darstellen.
+      Dupletten wurden entfernt.</p>
+
+    </div>`
+  $('div#main').html(h);
 }
 
 function createImpressum() {
