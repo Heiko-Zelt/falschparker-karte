@@ -33,6 +33,13 @@
       objs: "charge_types"
       role: "importeur"
       privs: "INSERT,UPDATE,DELETE,TRUNCATE,SELECT"
+  - name: "GRANT SELECT ON notices_wgs84"
+    postgresql_privs:
+      db: "{{db.name}}"
+      type: "table"
+      objs: "notices_wgs84"
+      role: "importeur"
+      privs: "SELECT"
 
   # railsapp user
   - name: "GRANT CONNECT ON DATABASE ... TO railsapp"
