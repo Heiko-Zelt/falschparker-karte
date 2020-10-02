@@ -28,7 +28,7 @@
     when: "html_dir.stat.exists"
 
   - name: "mv"
-    command: "mv {{temp_dir}}/htdocs /var/www/html"
+    command: "mv {{temp_dir}}/web/htdocs /var/www/html"
 
   - file:
       path: "{{temp_dir}}"
