@@ -19,7 +19,7 @@ rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 echo
 echo "INFO  Zeichne heisse Kacheln neu"
-./prerender_tiles.sh
+./render_hot_meta_tiles.rb
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 echo
