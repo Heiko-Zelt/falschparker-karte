@@ -37,9 +37,12 @@
     postgresql_privs:
       db: "{{db.name}}"
       type: "table"
-      objs: "notices_wgs84"
+      objs: "{{item}}"
       role: "importeur"
       privs: "SELECT"
+    loop:
+    - "notices_wgs84"
+    - "notices_webm"
 
   # railsapp user
   - name: "GRANT CONNECT ON DATABASE ... TO railsapp"
