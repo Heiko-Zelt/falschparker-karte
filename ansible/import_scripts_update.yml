@@ -68,13 +68,25 @@
       state: "directory"
       mode: 0770
 
-- name: "Create target dir for file exports"
+- name: "root install steps"
   hosts: "all"
   user: "root"
   tasks:
-  - file:
+  - name: "Create target dir for file exports" 
+    file:
       path: "/var/exports"
       state: "directory"
       mode: 0775
       owner: "importeur"
       group: "importeur"
+
+  - name: "Script for update timestamp and empty tile cache"
+    command:
+      cmd: "mv /home/importeur/import/notices/empty_tile_cache.sh /root/."
+
+  - name: "file permissions"
+    file:
+      path: "/root/empty_tile_cache.sh"
+      owner: "root"
+      group: "root"
+      mode: 0700
