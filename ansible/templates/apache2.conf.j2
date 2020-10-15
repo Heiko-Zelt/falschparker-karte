@@ -44,6 +44,9 @@ AccessFileName .htaccess
 # %O bytes sent
 LogFormat "%h %t %{ms}T \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" heiko
 
+# for other virtual Hosts
+LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
+
 IncludeOptional conf-enabled/*.conf
 IncludeOptional sites-enabled/*.conf
 

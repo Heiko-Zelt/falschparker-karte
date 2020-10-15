@@ -1,3 +1,18 @@
+# Default name based virtual host
+<VirtualHost *:80>
+  ServerName noname.nodomain
+  DocumentRoot /var/www/html
+  LogLevel info
+
+  ErrorLog ${APACHE_LOG_DIR}/error-noname.log
+  CustomLog ${APACHE_LOG_DIR}/access-noname.log vhost_combined
+
+  <Location />
+    Require all denied
+  </Location>
+</VirtualHost>
+
+# One and only correct name based virtual host
 <VirtualHost *:80>
   ServerName {{apache.hostname}}
   ServerAdmin {{apache.serveradmin}}
