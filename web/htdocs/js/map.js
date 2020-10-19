@@ -510,7 +510,7 @@ function createHotspotsTable(headlineText, explainText, tableHeaderText, wsUrl) 
 function createMetropolises() {
   createHotspotsTable(
     'Gro&szlig;st&auml;dte',
-    'Falschparker-Karte - Gro&szlig;st&auml;dte, Stadtstaaten und Kreise mit &uuml;ber 100.000 Einwohnern',
+    '..., Stadtstaaten und Kreise mit &uuml;ber 100.000 Einwohnern',
     'Stadt',
     'grossstaedte'
   );
