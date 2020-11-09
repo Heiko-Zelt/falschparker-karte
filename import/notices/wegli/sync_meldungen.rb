@@ -5,18 +5,28 @@ require 'uri'
 
 BASE_URI = 'https://www.weg-li.de'
 INDEX_URI = 'https://www.weg-li.de/exports'
-PATTERN = 'href="(/rails/active_storage/blobs/[A-Za-z0-9]+={0,2}--[0-9a-f]+/(notices-[0-9]{1,2}\.zip)\?disposition=attachment)"'
+PATTERN = 'href\="(/rails/active_storage/blobs/redirect/[A-Za-z0-9]+={0,2}\-\-[0-9a-f]+/(notices-[0-9]{1,2}\.zip)\?disposition\=attachment)"'
+
+# Beispiel:
+#<a class="btn btn-sm btn-default" title="herunterladen" href="/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBeUVjQXc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--6b78fd1878005531fac46fb6350328ba585ecefe/notices-45.zip?disposition=attachment">
 
 def getPathAndFilename(indexUri, pattern)
   puts 'getPathAndFilename()'
-  index_uri = URI(INDEX_URI)
-  re = Regexp.new PATTERN
+  index_uri = URI(indexUri)
+  re = Regexp.new pattern
   html = Net::HTTP.get(index_uri)
+  puts "DEBUG length of index html page: #{html.length}"
+  #puts html
   m = html.match re
-  path = m[1]
-  filename = m[2]
-  puts "path: #{path}"
-  puts "filename: #{filename}"
+  if m then
+    path = m[1]
+    filename = m[2]
+    puts "DEBUG path: #{path}"
+    puts "DEBUG filename: #{filename}"
+  else
+    puts "ERROR Download-Link nicht gefunden!"
+    exit 1
+  end 
   return [path, filename]
 end
 
