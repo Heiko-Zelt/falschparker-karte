@@ -12,6 +12,7 @@
     apt:
       upgrade: "full"
       update_cache: yes
+      autoremove: yes
     register: "a"
 
   - debug:
