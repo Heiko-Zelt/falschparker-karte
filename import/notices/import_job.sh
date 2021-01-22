@@ -1,13 +1,13 @@
 #!/bin/bash
-echo
-echo "INFO  Import Wegeheld-Meldungen"
-cd wegeheld
-./sync_meldungen.rb
-rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
-
+#echo
+#echo "INFO  Import Wegeheld-Meldungen"
+#cd wegeheld
+#./sync_meldungen.rb
+#rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
+#
 echo
 echo "INFO  Import weg-li-Meldungn"
-cd ../wegli
+cd wegli
 ./sync_meldungen.rb
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
@@ -19,7 +19,7 @@ rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 echo
 echo "INFO  Zeichne heisse Kacheln neu"
-./render_hot_meta_tiles.rb
+./render_hot_meta_tiles.sh
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 echo
