@@ -1,7 +1,8 @@
 [renderd]
 stats_file=/var/run/renderd/renderd.stats
 socketname=/var/run/renderd/renderd.sock
-num_threads=5
+# parallel rendering speeds up, rendering of hot tiles
+num_threads=10
 tile_dir=/var/lib/mod_tile/falschparker
 
 [mapnik]
@@ -16,4 +17,6 @@ XML=/etc/falschparker_style.xml
 HOST={{apache.hostname}}
 DESCRIPTION=This is the Falschparker mapnik style
 TILESIZE=256
+# Mapnik renderd supports only maximum 20 zoom levels.
+# OpenStreetMap.org basemap supports only 19 zoom levels.
 MAXZOOM=19
