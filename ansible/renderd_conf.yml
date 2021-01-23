@@ -1,6 +1,6 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: "Installs TileMill, map stylesheets editor (carto CSS coverter is included)"
+- name: "Installs/Updates /etc/renderd.conf"
   hosts: "all"
   user: "root"
   tasks:
@@ -12,3 +12,15 @@
       src: "../map/renderd.conf.j2"
       dest: "/etc/renderd.conf"
       mode: 0644
+      backup: yes
+    register: "t"
+
+  - name: "Restart renderd"
+    command:
+      cmd: "/bin/systemctl restart renderd"
+    when: "t.changed"
+    register: "r"
+
+  - debug:
+      var: "r"
+    when: "t.changed"
