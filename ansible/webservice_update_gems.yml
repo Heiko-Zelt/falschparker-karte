@@ -1,0 +1,47 @@
+#!/usr/bin/ansible-playbook
+---
+
+- name: "Updates Rails Gems (Gemfile.lock)"
+  hosts: "dev"
+  user: "root"
+  become: true
+  become_user: "railsapp"
+  vars:
+    jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+        
+  - debug:
+      var: "global.rails.dir"
+
+  - name: "Backup gemfile.lock"
+    command:
+      cmd: "cp {{global.rails.dir}}/Gemfile.lock {{global.rails.dir}}/Gemfile.lock.backup{{jetzt}}"
+
+  - name: "Unlocking"
+    command:
+      cmd: "/usr/local/bin/bundle config unset deployment"
+    args:
+      chdir: "{{global.rails.dir}}"
+    register: "c"
+
+  - debug:
+      var: "{{item}}"
+    loop:
+    - "c.stdout_lines"
+    - "c.stderr_lines"
+
+  - name: "Update needed gems with bundle"
+    command:
+      cmd: "/usr/local/bin/bundle update"
+    args:
+      chdir: "{{global.rails.dir}}"
+    register: "c"
+
+  - debug:
+      var: "{{item}}"
+    loop:
+    - "c.stdout_lines"
+    - "c.stderr_lines"

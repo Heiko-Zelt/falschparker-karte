@@ -1,0 +1,14 @@
+#!/usr/bin/ansible-playbook
+---
+- name: "Configure Systemd to start Rails webservice"
+  hosts: "all"
+  user: "root"
+  tasks:
+  - assert:
+      msg: "Use --limit!"
+      that: "ansible_limit is defined"
+
+  - name: "restart Rails Falschparker webservice"
+    systemd:
+      name: "railsapp"
+      state: "restarted"
