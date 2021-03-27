@@ -22,20 +22,21 @@
   become: true
   become_user: "railsapp"
   vars:
+    base_dir: "/var/rails"
     jetzt: "{{ansible_date_time.date}}_{{ansible_date_time.time|replace(':', '-')}}"
-    temp_dir: "/tmp/ansible-railsapp"
+    #temp_dir: "/tmp/ansible-railsapp"
   tasks:
   - assert:
       msg: "Use --limit!"
       that: "ansible_limit is defined"
         
-  - file:
-      path: "{{temp_dir}}"
-      state: "absent"
+  #- file:
+      #path: "{{temp_dir}}"
+      #state: "absent"
 
-  - git:
-      repo: "{{global.git_repo_url}}"
-      dest: "{{temp_dir}}"
+  #- git:
+      #repo: "{{global.git_repo_url}}"
+      #dest: "{{temp_dir}}"
  
   - stat:
       path: "{{global.rails.dir}}"
@@ -45,25 +46,31 @@
     command: "mv {{global.rails.dir}} {{global.rails.dir}}.backup{{jetzt}}"
     when: "s.stat.exists"
 
-  - name: "mv"
-    command: "mv {{temp_dir}}/webservice/railsapp {{global.rails.dir}}"
+  #- name: "mv"
+    #command: "mv {{temp_dir}}/webservice/railsapp {{global.rails.dir}}"
 
-  - file:
-      path: "{{temp_dir}}"
-      state: "absent"
+  #- file:
+    #path: "{{temp_dir}}"
+    #state: "absent"
 
-  - name: "switch to local installation of gems in vendor/bundle"
-    command:
-      cmd: "/usr/local/bin/bundle config set deployment 'true'"
-    args:
-      chdir: "{{global.rails.dir}}"
-    register: "c"
+  # use gems defined in checked in Gemfile.lock for deployment.
+  # Gemfile.lock is defined in development
+  - copy:
+      src: "../webservice/falschparker-railsapp"
+      dest: "{{base_dir}}"
 
-  - debug:
-      var: "{{item}}"
-    loop:
-    - "c.stdout_lines"
-    - "c.stderr_lines"
+  #- name: "switch to local installation of gems in vendor/bundle"
+  #  command:
+  #    cmd: "/usr/local/bin/bundle config set deployment 'true'"
+  #  args:
+  #    chdir: "{{global.rails.dir}}"
+  #  register: "c"
+
+  #- debug:
+  #    var: "{{item}}"
+  #  loop:
+  #  - "c.stdout_lines"
+  #  - "c.stderr_lines"
 
   - name: "Install needed gems with bundle"
     command:

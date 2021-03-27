@@ -9,7 +9,7 @@ User=railsapp
 Group=railsapp
 Restart=always
 RestartSec=1
-WorkingDirectory=/var/rails/falschparker
+WorkingDirectory=/var/rails/falschparker-railsapp
 ExecStart=/usr/local/bin/bundle exec rails s -p 3000 -e {{rails.environment}} --binding localhost
 
 [Install]

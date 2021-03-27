@@ -1,4 +1,4 @@
 global:
   git_repo_url: "https://github.com/Heiko-Zelt/falschparker-karte"
   rails:
-    dir: "/var/rails/falschparker"
+    dir: "/var/rails/falschparker-railsapp"
