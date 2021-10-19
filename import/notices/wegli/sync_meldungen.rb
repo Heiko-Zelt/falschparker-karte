@@ -3,8 +3,8 @@
 require 'net/http'
 require 'uri'
 
-BASE_URI = 'https://www.weg.li'
-INDEX_URI = 'https://www.weg.li/exports'
+BASE_URI = 'https://weg.li'
+INDEX_URI = 'https://weg.li/exports'
 PATTERN = 'href\="(/rails/active_storage/blobs/redirect/[A-Za-z0-9]+={0,2}\-\-[0-9a-f]+/(notices-[0-9]{1,2}\.zip)\?disposition\=attachment)"'
 
 # Beispiel:
